@@ -1,0 +1,220 @@
+<html>
+	<head>
+            <title>Login Form</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <style type="text/css">
+                *{
+                    font-family: sans-serif;
+                    box-sizing: border-box;
+                }
+                body{
+                    background: #dedede;
+                }
+                nav{
+                    background: #333;
+                    padding: 10px 20px;
+                    float: left;
+                    width: 100%;
+                    text-align: center;
+                    color: #dedede;
+                }
+                nav h1{
+                    margin: 0px;
+                    width: 100%;
+                }
+                nav div{
+                    width: 100%;
+                }
+                .form{
+                    text-align: center;
+                    width: 35%;
+                    position: relative;
+                    top: 50px;
+                    padding: 10px;
+                    background: #333;
+                    border-radius: 10px;
+                    min-height: 350px;
+                }
+                fieldset{
+                    border: none;
+                    padding: 0px 20px 40px 20px;
+                }
+                label{
+                    float: left;
+                    background: black;
+                    padding: 10px;
+                    width: 20%;
+                    color: white;
+                    border-radius: 10px 0px 0px 10px;
+                }
+                legend{
+                    color: #dedede;
+                    text-align: left;
+                }
+                input{
+                    outline: none!important;
+                    border: 0px;
+                    float: left;
+                    padding: 10.2px;
+                    color: white;
+                    text-transform: uppercase;
+                    font-family: monospace;
+                    background: black!important;
+                    width: 80%;        
+                    border-radius: 0px 10px 10px 0px
+                }
+                .form div{
+                    width: 90%;
+                    float: left;
+                    margin-top: 20px;
+                    margin-left: 5%;
+                    margin-right: 5%;
+                }
+                #but input{
+                    width: 30%;
+                    text-transform: uppercase;
+                    background: black!important;
+                    color: white;
+                    float: right;
+                    font-family: monospace,sans-serif;
+                    border-radius: 10px;
+                }
+                input:focus{
+                    box-shadow: inset 0px 0px 5px #151212;
+                }
+                .head{
+                    position: relative;
+                    text-transform: uppercase;
+                }
+                #login{
+                    margin-left: 10%;
+                    float: left;
+                    margin-right: 5%;
+                }
+                #signup{
+                    margin-left: 5%;
+                    float: right;
+                    margin-right: 10%;
+                }
+            </style>
+            <script>
+                $(document).ready(function(){
+                    $("#submit2").click(function(e){
+                        e.preventDefault();
+                        if($("#pwd2").val() != "" && $("#user2").val() != ""){
+                            if($("#pwd2").val() != $("#pwd3").val()){
+                                alert("password does not match");
+                            }
+                            else{
+                                var name =$("#user2").val();
+                                var pwd =$("#pwd2").val();
+                                console.log(name);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "Signup",
+                                    data: "name="+name+"&pwd="+pwd,
+                                    success: function (msg) {
+                                        var obj = JSON.parse(msg);
+                                        if(obj.success == 10){
+                                            alert(obj.msg);   
+                                        }
+                                        else{
+                                            window.location = "apartments.jsp";
+                                        }
+                                    },
+                                    error: function () {                                    
+                                        alert("Error!!");                            
+                                    }
+                                });
+                            }
+                        }
+                        else{
+                            alert("Empty Fields!!");
+                        }
+                    });
+                });
+                $(document).ready(function(){
+                    $("#submit").click(function (e) {
+                        e.preventDefault();
+                        if($("#user").val() != "" && $("#pwd").val() != ""){
+                            if($("#name").val()!=""){
+                                var name =$("#user").val();
+                                var pwd =$("#pwd").val();
+                                console.log(name);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "Login",
+                                    data: "name="+name+"&pwd="+pwd,
+                                    success: function (msg) {
+                                        var obj = JSON.parse(msg);
+                                        if(obj.success == 10){
+                                            alert(obj.msg);   
+                                        }
+                                        else{
+                                            window.location = "apartments.jsp";
+                                        }
+                                    },
+                                    error: function () {
+                                        alert("Error!!");
+                                    }
+                                });
+                            }
+                        }
+                        else{
+                            alert("Empty Fields!!");
+                        }
+                    }); 
+                });
+            </script>
+	</head>
+	<body style="margin:0px;">
+            <nav>
+                <div>
+                    <h1 class= "head">
+                        <span>Apartment for rent</span>
+                    </h1>
+                </div>
+            </nav>
+            <div id="login" class ="form">
+                <fieldset><legend style="font-size: 25px;text-transform: uppercase;">Login</legend>
+                    <div>
+                        <label for="user"><i class="fa fa-user"></i></label>
+                        <input id = "user" type="text" placeholder="username" required>
+                    </div>                    			
+                    <br>
+                    <div>
+                        <label for="pwd"><i class="fa fa-lock"></i></label>
+                        <input id="pwd" type="password" placeholder="password" required>
+                    </div>
+                    
+                    <br>
+                    <div id="but">
+                        <input type="submit" id ="submit" value="LOGIN">                        
+                    </div>                    
+                </fieldset>
+            </div>
+            <div id="signup" class ="form">
+                <fieldset><legend style="font-size: 25px;text-transform: uppercase;">signup</legend>
+                    <div>
+                        <label for="user2"><i class="fa fa-user"></i></label>
+                        <input id = "user2" type="text" placeholder="username" required>
+                    </div>                    			
+                    <br>
+                    <div>
+                        <label for="pwd2"><i class="fa fa-lock"></i></label>
+                        <input id="pwd2" type="password" placeholder="password" required>
+                    </div>
+                    
+                    <br>
+                    <div>
+                        <label for="pwd3"><i class="fa fa-lock"></i></label>
+                        <input id="pwd3" type="password" placeholder="confirm password" required>
+                    </div>
+                    <div id="but">
+                        <input type="submit" value="SIGNUP" id="submit2">
+                    </div>                    
+                </fieldset>
+            </div>
+	</body>          
+</html>
